@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tool — InstaFollowCheck</title>
+<meta name="description" content="Analyzer Instagram di InstaFollowCheck."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main">Vai al contenuto</a>
+<div class="noise" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg></div>
+<header class="site-header">
+  <a class="site-logo" href="/">Insta<i>Follow</i><span class="accent">Check</span></a>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link is-active" href="/strumento">Tool</a>
+    <a class="nav-link" href="/come-funziona">How it works</a>
+    <a class="nav-link" href="/faq">FAQ</a>
+    <a class="nav-link" href="/contatti">Contact</a>
+  </nav>
+  <a class="header-cta" href="/login">Log in →</a>
+  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span>Menu</span><i>+</i></button>
+</header>
+<main class="site-main" id="main">
+<section class="page-hero"><div class="container"><p class="section-kicker">The tool</p><h1 class="reveal">Analyzer</h1><p class="page-lead reveal">Connect your account, let the bot scroll your followers and following, and find out who doesn't follow you back.</p></div></section>
+<section class="section"><div class="container">
+  <p id="toolNote" class="section-kicker" style="margin-bottom:1rem">Status: not connected</p>
+  <div class="tool-shell">
+    <div class="tool-bar">
+      <button id="openBtn" class="btn btn-primary">Login Instagram</button>
+      <button id="analyzeBtn" class="btn btn-outline" disabled>Analyze account</button>
+      <button id="logoutBtn" class="btn btn-ghost" disabled>Log out</button>
+      <div class="tool-status" id="status">not connected</div>
+    </div>
+    <div class="tool-progress" id="progressWrap" hidden>
+      <div class="tool-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="tool-progress-fill" id="progressFill"></div></div>
+      <span class="tool-progress-label" id="progressLabel">0%</span>
+    </div>
+    <div id="browserPanel" class="browser-panel" hidden>
+      <div class="browser-frame"><img id="browserView" alt="Embedded Instagram browser" aria-label="Embedded Instagram browser" tabindex="0"/><div id="browserOverlay" class="browser-overlay" hidden>Analyzing in background…</div><div id="browserHint" class="browser-hint" hidden>Loading browser…</div></div>
+      <p class="browser-note">Log into Instagram in this panel. The browser runs headless in the background on Render — no separate window opens.</p>
+    </div>
+    <div class="tool-results" id="results" hidden>
+      <div class="tool-stats"><div class="tool-stat"><div class="v" id="statFollowers">–</div><div class="vt">Followers</div></div><div class="tool-stat"><div class="v" id="statFollowing">–</div><div class="vt">Following</div></div><div class="tool-stat hi"><div class="v" id="statDiff">–</div><div class="vt">Don't follow back</div></div></div>
+      <div class="tool-actions"><input id="filter" class="tool-filter" type="search" placeholder="Filter by name…"/><button id="copyBtn" class="btn btn-outline">Copy list</button><button id="downloadBtn" class="btn btn-primary">Download CSV ↓</button></div>
+      <div class="tool-table-wrap"><table class="tool-table"><thead><tr><th>#</th><th>Username</th><th>Profile</th></tr></thead><tbody id="rows"></tbody></table></div>
+      <div class="tool-empty" id="empty" hidden>No results: you only follow people who follow you back. 🎉</div>
+    </div>
+    <div class="tool-log" id="log" hidden><h2>Progress</h2><ul id="logList"></ul></div>
+  </div>
+  <p class="section-kicker" style="margin-top:2rem;line-height:1.5;max-width:44rem">Note: automated scraping may violate Instagram's Terms of Service and can lead to restrictions on your account. Results are computed server-side and are <strong>not 100% exact</strong>.</p>
+</div></section>
+</main>
+<footer class="site-footer">
+  <div class="marquee marquee-accent footer-marquee" data-speed="mid" aria-hidden="true"><div class="marquee-inner"><strong>Follow</strong><span class="m-sym">◆</span><strong>Compare</strong><span class="m-sym">◆</span><strong>Uncover</strong><span class="m-sym">◆</span><strong>InstaFollowCheck</strong><span class="m-sym">◆</span></div></div>
+  <div class="footer-body"><div class="footer-grid"><div class="footer-brand"><div class="footer-mark">Insta<i>Follow</i>Check</div><p class="footer-tag">See who follows you back. No clutter, <em>no guessing</em>.</p></div><div class="footer-col"><h4>Product</h4><ul><li><a href="/strumento">Tool</a></li><li><a href="/come-funziona">How it works</a></li><li><a href="/faq">FAQ</a></li></ul></div><div class="footer-col"><h4>Site</h4><ul><li><a href="/contatti">Contact</a></li><li><a href="/privacy">Privacy</a></li><li><a href="/termini">Terms</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 InstaFollowCheck · free software</span><span>Not affiliated with Meta / Instagram.</span></div></div>
+</footer>
+<script>window.IFC_CONFIG={"SUPABASE_URL":"https://tcitkqkgidcgwddjqfyy.supabase.co","SUPABASE_ANON_KEY":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjaXRrcWtnaWRjZ3dkZGpxZnl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxODE3NzQsImV4cCI6MjEwMzc1Nzc3NH0.yF7cFAScomGZHK8U0JpxITR19F8EO7Iq7Ys4wl53ezw","API_BASE":"https://instafollowcheck-backend.onrender.com"};</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/app.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/tool.js"></script>
+</body>
+</html>
