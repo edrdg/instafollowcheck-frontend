@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>InstaFollowCheck — who follows you back</title>
+<meta name="description" content="InstaFollowCheck — scopri chi su Instagram ti segue e chi non ti ricambia il follow. Free software, login con Supabase."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main">Vai al contenuto</a>
+<div class="noise" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg></div>
+<header class="site-header">
+  <a class="site-logo" href="/">Insta<i>Follow</i><span class="accent">Check</span></a>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="nav-link is-active" href="/">Home</a>
+    <a class="nav-link" href="/strumento">Tool</a>
+    <a class="nav-link" href="/come-funziona">How it works</a>
+    <a class="nav-link" href="/faq">FAQ</a>
+    <a class="nav-link" href="/contatti">Contact</a>
+  </nav>
+  <a class="header-cta" href="/login">Log in →</a>
+  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span>Menu</span><i>+</i></button>
+</header>
+<main class="site-main" id="main">
+
+<section class="hero"><div class="container hero-inner">
+  <p class="hero-overline reveal">Instagram follower checker</p>
+  <h1 class="hero-title reveal">Who<br/><span class="outline">follows</span><br/><span class="accent">you<br/>back?</span></h1>
+  <p class="hero-sub reveal">Connect your account and InstaFollowCheck scrolls your followers and following lists to show the people you follow who don't follow you back.</p>
+  <div class="hero-actions reveal"><a class="btn btn-primary" href="/strumento">Analyze my account</a><a class="btn btn-outline" href="/come-funziona">How it works</a></div>
+  <p class="hero-sub reveal" style="margin-top:1.5rem;font-size:.95rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg)">Free software · no sign-up · login con Supabase</p>
+</div><div class="hero-bignum" aria-hidden="true">%</div></section>
+
+<div class="marquee" data-speed="fast" aria-hidden="true"><div class="marquee-inner"><strong>Followers</strong><span class="m-sym">◆</span><strong>Following</strong><span class="m-sym">◆</span><strong>Not following back</strong><span class="m-sym">◆</span><strong>One clean list</strong><span class="m-sym">◆</span></div></div>
+
+<section class="section"><div class="container"><div class="section-head"><h2 class="reveal">Unfollow<br/>with intent</h2><p class="section-kicker">The numbers that matter</p></div><div class="stat-grid"><div class="stat-cell"><div class="num s-accent">2</div><div class="lbl">Lists compared</div></div><div class="stat-cell"><div class="num">3</div><div class="lbl">Simple steps</div></div><div class="stat-cell"><div class="num">1</div><div class="lbl">Click export — CSV</div></div></div></div></section>
+
+<section class="section" style="padding-top:0"><div class="container"><div class="steps">
+  <div class="step reveal"><span class="step-num">01</span><h3>Log in</h3><p>Login con email via Supabase, poi colleghi il tuo Instagram nel browser integrato.</p></div>
+  <div class="step reveal"><span class="step-num">02</span><h3>Analyze</h3><p>Il bot apre il tuo profilo e scorre followers e following, raccogliendo gli username nel backend.</p></div>
+  <div class="step reveal"><span class="step-num">03</span><h3>Compare</h3><p>Ottieni chi segui senza ricambio, con filtro e esportazione CSV.</p></div>
+</div></div></section>
+
+<section class="section" style="padding-top:0"><div class="container"><div class="section-head"><h2 class="reveal">Everything<br/>you need</h2><p class="section-kicker">Built for clarity</p></div><div class="features">
+  <div class="feature reveal"><span class="f-icon">◎</span><h3>Easy login</h3><p class="f-desc">Account email/password via Supabase.</p></div>
+  <div class="feature reveal"><span class="f-icon">↗</span><h3>Web-based</h3><p class="f-desc">Frontend su Vercel, backend API su Render.</p></div>
+  <div class="feature reveal"><span class="f-icon">⇩</span><h3>One-click CSV</h3><p class="f-desc">Esporta la lista "non ti ricambiano" in un click.</p></div>
+</div></div></section>
+
+<section class="cta-band"><div class="container"><h2 class="reveal">Cut the<br/>dead weight.</h2><p class="reveal">Vedi chi davvero ti ricambia il follow. Analizza il tuo account.</p><div class="hero-actions reveal"><a class="btn btn-primary" href="/strumento">Open the tool</a><a class="btn btn-outline" href="/faq">Read the FAQ</a></div></div></section>
+
+</main>
+<footer class="site-footer">
+  <div class="marquee marquee-accent footer-marquee" data-speed="mid" aria-hidden="true"><div class="marquee-inner"><strong>Follow</strong><span class="m-sym">◆</span><strong>Compare</strong><span class="m-sym">◆</span><strong>Uncover</strong><span class="m-sym">◆</span><strong>InstaFollowCheck</strong><span class="m-sym">◆</span></div></div>
+  <div class="footer-body"><div class="footer-grid"><div class="footer-brand"><div class="footer-mark">Insta<i>Follow</i>Check</div><p class="footer-tag">See who follows you back. No clutter, <em>no guessing</em>.</p></div><div class="footer-col"><h4>Product</h4><ul><li><a href="/strumento">Tool</a></li><li><a href="/come-funziona">How it works</a></li><li><a href="/faq">FAQ</a></li></ul></div><div class="footer-col"><h4>Site</h4><ul><li><a href="/contatti">Contact</a></li><li><a href="/privacy">Privacy</a></li><li><a href="/termini">Terms</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 InstaFollowCheck · free software</span><span>Not affiliated with Meta / Instagram.</span></div></div>
+</footer>
+<script>window.IFC_CONFIG={"SUPABASE_URL":"https://tcitkqkgidcgwddjqfyy.supabase.co","SUPABASE_ANON_KEY":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjaXRrcWtnaWRjZ3dkZGpxZnl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxODE3NzQsImV4cCI6MjEwMzc1Nzc3NH0.yF7cFAScomGZHK8U0JpxITR19F8EO7Iq7Ys4wl53ezw","API_BASE":"https://instafollowcheck-backend.onrender.com"};</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/app.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
