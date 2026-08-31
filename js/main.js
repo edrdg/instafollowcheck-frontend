@@ -1,99 +1,146 @@
-// InstaFollowCheck — shared front-end: chrome + auth (Supabase) + guard
+// InstaFollowCheck — shared front-end: chrome + auth (Supabase) + guard pages.
 (function () {
   'use strict';
-  var toggle = document.querySelector('.nav-toggle');
+
+  /* ---- Mobile nav ---- */
+  const toggle = document.querySelector('.nav-toggle');
   if (toggle) {
-    toggle.addEventListener('click', function () {
-      var o = document.body.classList.toggle('nav-open');
-      toggle.setAttribute('aria-expanded', o ? 'true' : 'false');
+    toggle.addEventListener('click', () => {
+      const open = document.body.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
-    document.querySelectorAll('.nav-link').forEach(function (l) {
-      l.addEventListener('click', function () { document.body.classList.remove('nav-open'); });
+    document.querySelectorAll('.nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        document.body.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
     });
   }
-  document.querySelectorAll('.marquee-inner').forEach(function (m) {
-    if (m.dataset.duplicated === 'true') return;
-    m.dataset.duplicated = 'true';
-    m.innerHTML += m.innerHTML;
+
+  /* ---- Marquee: duplicate inner for seamless -50% loop ---- */
+  document.querySelectorAll('.marquee-inner').forEach((inner) => {
+    if (inner.dataset.duplicated === 'true') return;
+    inner.dataset.duplicated = 'true';
+    inner.innerHTML += inner.innerHTML;
   });
-  var rv = document.querySelectorAll('.reveal');
-  if (rv.length) {
+
+  /* ---- Reveal on scroll ---- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if (revealEls.length) {
     if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (en) {
-        en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
-      }, { threshold: 0.15 });
-      rv.forEach(function (el) { io.observe(el); });
-    } else { rv.forEach(function (el) { el.classList.add('in-view'); }); }
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+        }),
+        { threshold: 0.15 }
+      );
+      revealEls.forEach((el) => io.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add('in-view'));
+    }
   }
-  var bn = document.querySelector('.hero-bignum');
-  if (bn) {
-    var tk = false;
-    window.addEventListener('scroll', function () {
-      if (tk) return; tk = true;
-      requestAnimationFrame(function () { bn.style.transform = 'translateY(' + (window.scrollY || 0) * 0.25 + 'px)'; tk = false; });
+
+  /* ---- Parallax for big hero numerals ---- */
+  const bignum = document.querySelector('.hero-bignum');
+  if (bignum) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        bignum.style.transform = `translateY(${(window.scrollY || 0) * 0.25}px)`;
+        ticking = false;
+      });
     }, { passive: true });
   }
 
+  /* ---- Auth (Supabase): header + guard + forms ---- */
   if (window.IFCAuth) {
-    function clean(p) {
-      var s = (p || '/').replace(/\.[^/.]+$/, '');
+    function cleanPath(p) {
+      let s = (p || '/').replace(/\.[^/.]+$/, ''); // rimuove estensione .html
       if (s.length > 1 && s.endsWith('/')) s = s.slice(0, -1);
       return s;
     }
-    var path = clean(location.pathname);
-
-    function renderAuth() {
-      return IFCAuth.user().then(function (user) {
-        var cta = document.querySelector('.header-cta');
-        if (cta) {
-          if (user) {
-            cta.textContent = 'Log out';
-            cta.href = '#';
-            cta.onclick = function (e) { e.preventDefault(); IFCAuth.sb.auth.signOut().then(function () { location.replace('/'); }); };
-          } else {
-            cta.textContent = 'Log in →';
-            cta.href = '/login';
-            cta.onclick = null;
-          }
+    async function renderAuth() {
+      const user = await IFCAuth.user();
+      const cta = document.querySelector('.header-cta');
+      if (cta) {
+        if (user) {
+          cta.textContent = 'Log out';
+          cta.href = '#';
+          cta.onclick = async (e) => {
+            e.preventDefault();
+            await IFCAuth.sb.auth.signOut();
+            location.replace('/');
+          };
+          const note = cta.nextElementSibling && cta.nextElementSibling.tagName === 'SPAN'
+            ? cta.nextElementSibling : null;
+          if (note) note.textContent = `@${user.email}`;
+        } else {
+          cta.textContent = 'Log in →';
+          cta.href = '/login';
+          cta.onclick = null;
         }
-        return !!user;
-      });
+      }
+      return !!user;
     }
 
-    renderAuth().then(function (logged) {
-      var tool = path === '/strumento';
-      var authp = path === '/login' || path === '/signup';
-      if (tool && !logged) { location.replace('/login'); return; }
-      if (authp && logged) { location.replace('/strumento'); }
-    });
+    const path = cleanPath(location.pathname);
 
-    var af = document.getElementById('authForm');
-    if (af) {
-      var err = document.getElementById('authError');
-      var btn = af.querySelector('button[type="submit"]');
-      af.addEventListener('submit', function (e) {
+    (async () => {
+      const logged = await renderAuth();
+      const isTool = path === '/strumento';
+      const isAuthPage = path === '/login' || path === '/signup';
+
+      if (isTool && !logged) {
+        location.replace('/login');
+        return;
+      }
+      if (isAuthPage && logged) {
+        const next = new URLSearchParams(location.search).get('next') || '/strumento';
+        location.replace(next);
+        return;
+      }
+    })();
+
+    const authForm = document.getElementById('authForm');
+    if (authForm) {
+      const errEl = document.getElementById('authError');
+      const btn = authForm.querySelector('button[type="submit"]');
+      authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (err) err.hidden = true;
+        if (errEl) errEl.hidden = true;
         btn.disabled = true;
-        var mode = af.dataset.mode || 'login';
-        var email = (af.email.value || '').trim();
-        var pass = af.password.value || '';
-        var reload = function () { location.replace(new URLSearchParams(location.search).get('next') || '/strumento'); };
-        if (mode === 'signup') {
-          IFCAuth.sb.auth.signUp({ email: email, password: pass })
-            .then(function (r) { if (r.error) throw r.error; return IFCAuth.sb.auth.getSession(); })
-            .then(function (sd) {
-              if (sd.data && sd.data.session) { reload(); }
-              else {
-                if (err) { err.textContent = 'Account creato. Controlla la tua email per confermare e poi accedi.'; err.style.color = 'var(--accent)'; err.hidden = false; }
-                btn.disabled = false;
-              }
-            })
-            .catch(function (er) { if (err) { err.textContent = (er && er.message) || 'Errore'; err.hidden = false; } btn.disabled = false; });
-        } else {
-          IFCAuth.sb.auth.signInWithPassword({ email: email, password: pass })
-            .then(function (r) { if (r.error) throw r.error; reload(); })
-            .catch(function (er) { if (err) { err.textContent = (er && er.message) || 'Errore'; err.hidden = false; } btn.disabled = false; });
+        const mode = authForm.dataset.mode || 'login';
+        const email = (authForm.email.value || '').trim();
+        const password = authForm.password.value || '';
+        try {
+          let error = null;
+          if (mode === 'signup') {
+            const redirectTo = (IFCAuth.origin || window.location.origin) + '/login';
+            const { error: er } = await IFCAuth.sb.auth.signUp({ email, password, options: { emailRedirectTo: redirectTo } });
+            error = er;
+            if (error) throw error;
+            // Se serve conferma email, mostra avviso; altrimenti redirect.
+            const { data } = await IFCAuth.sb.auth.getSession();
+            if (!data.session) {
+              if (errEl) { errEl.textContent = 'Account creato. Controlla la tua email per confermare e poi accedi.'; errEl.hidden = false; errEl.style.color = 'var(--accent)'; }
+              btn.disabled = false;
+              return;
+            }
+          } else {
+            const { error: er } = await IFCAuth.sb.auth.signInWithPassword({ email, password });
+            error = er;
+            if (error) throw error;
+          }
+          const next = new URLSearchParams(location.search).get('next') || '/strumento';
+          location.replace(next);
+        } catch (err) {
+          if (errEl) {
+            errEl.textContent = err.message || 'Something went wrong.';
+            errEl.hidden = false;
+          }
+          btn.disabled = false;
         }
       });
     }
